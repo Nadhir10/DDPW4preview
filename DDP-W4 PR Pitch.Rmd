@@ -1,0 +1,65 @@
+---
+title: "DDP-W4 Peer Review"
+author: "Nadhir"
+date: "1 novembre 2017"
+output: ioslides_presentation
+---
+
+## Overview
+
+This is the Reproducible Pitch for the Shiny Application developed in the Week 4 peer review assignment of the digital data products course specialization. 
+
+The related application allows the user to visualize the relation between the three variables of 'trees' dataset (Girth, Height and Volume). The user can choose which data to visualize and also plot the related regression model.
+
+The app developed for the first part of the assignment demo is avalilable at: [W4preview](http://nadhir10.shinyapps.io/w4preview)
+
+Source code for ui.R and server.R files are available on the GitHub repo: 
+
+## How it works
+The user interface provides the user with many options:  
+- Wich variable to plot.  
+- Wich variable to use in the x-axis.  
+- Show or hide the related linear model (that changes as you change the variables)  
+- The ability to show a third variable through colors.  
+- The ability to choose the color variable.  
+  
+Of course the plot is reactive to the inputs changes.
+
+
+
+## All options activated
+The following code plots the equivalent of setting all options On:   
+* Girth for the x-axis  
+* Heigth for the y a-axis  
+* Activating the regression model option  
+* Activating the thir parameter color option  
+* Choosing the volume variable as the color variable  
+
+```{r code, echo = TRUE, warning=FALSE, message=FALSE, results='hide'}
+library(plotly)
+data(trees)
+model<-lm(trees$Height  ~ trees$Girth)
+plot_ly(x = ~Girth, y = ~Height, data=trees,color=~Volume,
+        type = "scatter", name="Height vs Girth") %>% 
+  add_lines( y = fitted(model), name ="Regression Model") %>%
+  layout(
+    title = "Height vs Girth",
+    xaxis = list(title = "Girth"),
+    yaxis = list(title = "Height"))
+```
+
+## Plot of the allactivated options 
+The UI main panel will plot the following
+
+```{r plot, warning=FALSE, message=FALSE, echo=FALSE}
+library(plotly)
+data(trees)
+model<-lm(trees$Height  ~ trees$Girth)
+plot_ly(x = ~Girth, y = ~Height, data=trees,color=~Volume,type = "scatter", name="Height vs Girth") %>% 
+  add_lines( y = fitted(model), name ="Regression Model") %>%
+  layout(
+    title = "Height vs Girth",
+    xaxis = list(title = "Girth"),
+    yaxis = list(title = "Height"))
+```
+
